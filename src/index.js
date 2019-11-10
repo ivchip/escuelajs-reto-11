@@ -1,14 +1,23 @@
 const express = require('express');
+const helmet = require('helmet');
 const app = express();
 
 const { config } = require('./config');
-const platziStore = require('./routes')
+
+const authApi = require('./routes/auth');
+const platziStore = require('./routes/index')
+
+// body parser
+app.use(express.json());
+app.use(helmet());
 
 app.get('/', (req, res) => {
   let userInfo = req.header("user-agent");
   res.send(`UserInfo: ${userInfo}`);
 });
 
+// Routes
+authApi(app);
 platziStore(app);
 
 app.listen(config.port, err => {

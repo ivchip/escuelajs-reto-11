@@ -6,10 +6,11 @@ class ProductService {
     this.collection = 'products'
   }
 
-  async getProducts() {
+  async getProducts({ tags }) {
     try {
-      const products = await this.mongodb.getAll(this.collection, {});
-      return products;
+      const query = tags && { tags: { $in: tags } };
+      const products = await this.mongodb.getAll(this.collection, query);
+      return products || [];
     } catch (error) {
       throw new Error(error);
     }
@@ -18,7 +19,7 @@ class ProductService {
   async getProductById(id) {
     try {
       const product = await this.mongodb.get(this.collection, id);
-      return product;
+      return product || {};
     } catch (error) {
       throw new Error(error);
     }
@@ -26,8 +27,8 @@ class ProductService {
 
   async updateProductById({ id, ...data }) {
     try {
-      const id = await this.mongodb.update(this.collection, id, data);
-      return id;
+      const productId = await this.mongodb.update(this.collection, id, data);
+      return productId;
     } catch (error) {
       throw new Error(error);
     }
@@ -35,8 +36,8 @@ class ProductService {
 
   async deleteProductById(id) {
     try {
-      const id = await this.mongodb.delete(this.collection, id);
-      return id;
+      const productId = await this.mongodb.delete(this.collection, id);
+      return productId;
     } catch (error) {
       throw new Error(error);
     }
@@ -44,8 +45,8 @@ class ProductService {
 
   async createProduct(product) {
     try {
-      const id = await this.mongodb.create(this.collection, product);
-      return id;
+      const productId = await this.mongodb.create(this.collection, product);
+      return productId;
     } catch (error) {
       throw new Error(error);
     }

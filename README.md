@@ -8,6 +8,8 @@ Ya que tenemos nuestro backend debemos de proteger las principales rutas para no
 ### Instalación
 ```
 npm install
+node src/scripts/mongo/seedApiKeys.js
+node src/scripts/mongo/seedProducts.js
 ```
 
 ### Ejecución
